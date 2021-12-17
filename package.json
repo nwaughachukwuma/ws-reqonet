@@ -1,0 +1,32 @@
+{
+  "name": "ws-rekanet",
+  "description": "Simple WebSocket wrapper with a reconnect logic",
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nwaughachukwuma/ws-rekanet.git"
+  },
+  "author": {
+    "name": "nwaughachukwuma",
+    "email": "nwaughac@gmail.com"
+  },
+  "license": "MIT",
+  "main": "index.ts",
+  "type": "module",
+  "scripts": {
+    "tsc": "tsc"
+  },
+  "keywords": [
+    "ws-reconnect",
+    "reconnect-ws",
+    "websocket",
+    "reconnection"
+  ],
+  "dependencies": {
+    "events": "^3.3.0"
+  },
+  "devDependencies": {
+    "@types/events": "^3.0.0",
+    "typescript": "^4.5.4"
+  }
+}
