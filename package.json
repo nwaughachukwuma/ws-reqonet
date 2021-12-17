@@ -25,6 +25,8 @@
   ],
   "scripts": {
     "tsc": "tsc",
+    "test": "cypress run",
+    "test:watch": "cypress open",
     "build": "tsc && tsup"
   },
   "keywords": [
@@ -38,6 +40,8 @@
   },
   "devDependencies": {
     "@types/events": "^3.0.0",
+    "cypress": "^9.1.1",
+    "mock-socket": "^9.0.8",
     "tsup": "^5.11.6",
     "typescript": "^4.5.4"
   }
