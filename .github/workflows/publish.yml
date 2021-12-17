@@ -1,18 +1,12 @@
 name: Publish
 
 on:
-  pull_request:
-    branches:
-      - main
-    paths:
-      - '*.md'
-      - '.github/workflows/publish.yml'
   push:
     branches:
       - main
     paths:
-      - '*.md'
-      - '.github/workflows/publish.yml'
+      - 'index.ts'
+      - 'README.md'
   
 jobs:
   publish:
