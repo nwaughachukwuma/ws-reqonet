@@ -6,7 +6,8 @@
         "module": "es6",
         "moduleResolution": "node",
         "outDir": "lib",
-        "baseUrl": "."
+        "baseUrl": ".",
+        "declaration": true
     },
     "include": ["index.ts"]
 }
