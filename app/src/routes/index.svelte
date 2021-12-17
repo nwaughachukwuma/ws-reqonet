@@ -1,4 +1,30 @@
-<script lang="ts"></script>
+<script lang="ts">
+	import { onMount } from 'svelte';
+	import webSocket, { Websocket } from '$lib/websocket';
+
+	let wsClient: Websocket;
+	let clientMessage = '';
+	let wsResponse = '';
+	onMount(() => {
+		wsClient = webSocket();
+		wsClient.on('message', (event: any) => {
+			wsResponse = String(event.data);
+		});
+		wsClient.on('error', (error: any) => {
+			console.log('websocket error', error);
+		});
+		wsClient.on('open', () => {
+			console.log('websocket connection established');
+		});
+		wsClient.on('close', () => {
+			console.log('websocket connection closed');
+		});
+	});
+	const sendMessage = (message: string) => {
+		const payload = { message };
+		wsClient.send(JSON.stringify(payload));
+	};
+</script>
 
 <message-container class="mx-auto mt-10 rounded-md grid p-2 ring-1 ring-gray-500 w-[420px]">
 	<div class="request-area p-[5px] rounded-sm border border-[#4b2a2a]">
@@ -7,15 +33,31 @@
 				class="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-200"
 				type="text"
 				placeholder="Type a message"
+				bind:value={clientMessage}
 			/>
-			<button> Send Message </button>
+			<button
+				on:click={() => {
+					sendMessage(clientMessage);
+					clientMessage = '';
+				}}
+			>
+				Send Message
+			</button>
 		</div>
 
-		<button class="ping-server" data-tid="ping-websocket"> Ping Server </button>
+		<button
+			class="ping-server"
+			data-tid="ping-websocket"
+			on:click={() => sendMessage('Hello from the client')}
+		>
+			Ping Server
+		</button>
 	</div>
 	<div class="response-area">
 		<h1>WebSocket response</h1>
-		<span />
+		<span>
+			{JSON.stringify(wsResponse, null, 2)}
+		</span>
 	</div>
 </message-container>
 
