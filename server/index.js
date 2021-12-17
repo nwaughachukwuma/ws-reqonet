@@ -1,20 +1,34 @@
-import {createServer} from 'https'
-import WebSocket, { WebSocketServer } from 'ws';
+import fastify from 'fastify'
+import cors from 'fastify-cors'
+import fastifyWS from 'fastify-websocket'
 
 const PORT = 8080
-const HOST = '0.0.0.0'
-const server  = createServer()
-
-const wss = new WebSocketServer({ server })
-
-wss.on('connection', (ws) => {
-    ws.send('Hello from server!');
-    ws.on('message', function message(data) {
-        console.log('received: %s', data);
-        ws.send('message acked: ' + data);
-    });
+const ADDRESS = '0.0.0.0'
+const getEnvDetails = () => ({
+    VERSION: process.env.VERSION || 'local',
 })
 
-server.listen(PORT, HOST, () => {
-    console.log('started server on port ' + PORT)
-})
+fastify()
+    .register(cors, {
+      origin: true,
+      credentials: true,
+    })
+    .register(fastifyWS)
+    .setErrorHandler((error, _req, reply) => {
+      console.log('error', error.toString())
+      reply.send({ error: 'Something went wrong' })
+    })
+    .get('/', async () => getEnvDetails())
+    .get('/ws/*', { websocket: true }, (conn, req) => {
+      conn.socket.on('message', (msg) => {
+        console.log('from client', msg.toString(), req.url)
+        const res = JSON.stringify({
+          pong: `Hi from the server: ${msg}`,
+        })
+        conn.socket.send(res)
+      })
+    })
+    .listen(PORT, ADDRESS)
+    .then((v) => {
+      console.log(`ws server started on ${v}`)
+    })
