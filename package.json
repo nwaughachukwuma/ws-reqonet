@@ -1,7 +1,7 @@
 {
   "name": "ws-rekanet",
   "description": "Simple WebSocket wrapper with a reconnect logic",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/nwaughachukwuma/ws-rekanet.git"
@@ -17,6 +17,7 @@
       "require": "./lib/index.cjs"
     }
   },
+  "sideEffects": false,
   "files": [
     "lib"
   ],
