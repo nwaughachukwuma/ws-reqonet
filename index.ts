@@ -79,7 +79,7 @@ export default class WSReconnect extends EventEmitter {
 
     const messageQueue = [...this.messageQueue];
     for (const msg of messageQueue) {
-      await wait(50);
+      await wait(100);
       this.ws.send(msg);
     }
 
