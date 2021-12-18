@@ -126,6 +126,6 @@ export default class WSReconnect extends EventEmitter {
           clearInterval(this.intervalRef);
         }
       }
-    }, Math.pow(2, this.retryAttempts + 2) * 1000);
+    }, Math.pow(2, this.retryAttempts + 1) * 1000);
   };
 }
