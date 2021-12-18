@@ -77,6 +77,10 @@ export default class WSReconnect extends EventEmitter {
     this.ws.onopen = this.onOpen;
     this.ws.onmessage = this.onMessage;
 
+    this.relayQueuedMessages();
+  };
+
+  private relayQueuedMessages = async () => {
     const messageQueue = [...this.messageQueue];
     for (const msg of messageQueue) {
       await wait(100);
