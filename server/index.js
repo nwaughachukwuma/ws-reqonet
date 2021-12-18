@@ -6,26 +6,25 @@ const PORT = 8080
 const ADDRESS = '0.0.0.0'
 const getEnvDetails = () => ({
     VERSION: process.env.VERSION || 'local',
+    PORT,
 })
 
 fastify()
-    .register(cors, {
-      origin: true,
-      credentials: true,
-    })
+    .register(cors, { origin: true })
     .register(fastifyWS)
     .setErrorHandler((error, _req, reply) => {
       console.log('error', error.toString())
       reply.send({ error: 'Something went wrong' })
     })
     .get('/', async () => getEnvDetails())
-    .get('/ws/*', { websocket: true }, (conn, req) => {
-      conn.socket.on('message', (msg) => {
+    .get('/ws/*', { websocket: true }, ({ socket }, req) => {
+      socket.on('message', (msg) => {
         console.log('from client', msg.toString(), req.url)
         const res = JSON.stringify({
-          pong: `Hi from the server: ${msg}`,
+          pong: `acked: ${Date.now()}`,
+          msg: `${msg}`,
         })
-        conn.socket.send(res)
+        socket.send(res)
       })
     })
     .listen(PORT, ADDRESS)
