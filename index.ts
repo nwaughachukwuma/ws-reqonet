@@ -15,6 +15,7 @@ export default class WSReconnect extends EventEmitter {
   private messageQueue: string[];
   private retryAttempts: number;
   private maxRetryAttempts: number;
+  private forcedClose: boolean;
 
   constructor(url: string, options?: WebSocketReconnect) {
     super();
@@ -25,6 +26,7 @@ export default class WSReconnect extends EventEmitter {
     this.messageQueue = [];
     this.retryAttempts = 0;
     this.maxRetryAttempts = options?.maxRetryAttempts ?? 3;
+    this.forcedClose = false;
 
     this.ws = new WebSocket(url);
 
@@ -39,6 +41,7 @@ export default class WSReconnect extends EventEmitter {
 
   private onOpen = () => {
     this.emit("open");
+    this.forcedClose = false;
   };
 
   private onMessage = (event: MessageEvent<any>) => {
@@ -50,7 +53,9 @@ export default class WSReconnect extends EventEmitter {
   };
 
   private onClose = () => {
-    this.emit("close");
+    if (!this.forcedClose) {
+      this.emit("close");
+    }
   };
 
   public send = (data: string) => {
@@ -62,7 +67,7 @@ export default class WSReconnect extends EventEmitter {
   };
 
   public close = () => {
-    // TODO: handle manual close on the client
+    this.forcedClose = true;
     this.ws.close();
   };
 
@@ -82,6 +87,8 @@ export default class WSReconnect extends EventEmitter {
   };
 
   private reconnect = () => {
+    if (this.forcedClose) return;
+
     console.log("ws: reconnecting...");
 
     if (this.intervalRef) {
