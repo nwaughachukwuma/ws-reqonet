@@ -1,5 +1,7 @@
 import { EventEmitter } from "events";
 
+const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
 export interface WebSocketReconnect {
   maxReconnectAttempts?: number;
   maxRetryAttempts?: number;
@@ -64,18 +66,19 @@ export default class WSReconnect extends EventEmitter {
     this.ws.close();
   };
 
-  private connect = () => {
+  private connect = async () => {
     this.ws.onclose = this.onClose;
     this.ws.onerror = this.onError;
     this.ws.onopen = this.onOpen;
     this.ws.onmessage = this.onMessage;
 
-    // TODO: send with a slight delay to not overload the server
-    this.messageQueue.forEach((message) => {
-      this.ws.send(message);
-    });
+    const messageQueue = [...this.messageQueue];
+    for (const msg of messageQueue) {
+      await wait(50);
+      this.ws.send(msg);
+    }
 
-    this.messageQueue = [];
+    this.messageQueue.splice(0, messageQueue.length);
   };
 
   private reconnect = () => {
