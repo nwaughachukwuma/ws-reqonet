@@ -6,10 +6,7 @@
     "type": "git",
     "url": "git+https://github.com/nwaughachukwuma/ws-rekanet.git"
   },
-  "author": {
-    "name": "nwaughachukwuma",
-    "email": "nwaughac@gmail.com"
-  },
+  "author": "nwaughachukwuma<nwaughac@gmail.com>",
   "license": "MIT",
   "main": "index.ts",
   "type": "module",
@@ -22,6 +19,10 @@
   },
   "files": [
     "lib"
+  ],
+  "workspaces": [
+    "server",
+    "app"
   ],
   "scripts": {
     "tsc": "tsc",
