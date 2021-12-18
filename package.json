@@ -1,15 +1,15 @@
 {
   "name": "ws-rekanet",
   "description": "Simple WebSocket wrapper with a reconnect logic",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/nwaughachukwuma/ws-rekanet.git"
   },
   "author": "nwaughachukwuma<nwaughac@gmail.com>",
   "license": "MIT",
-  "main": "index.ts",
   "type": "module",
+  "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "exports": {
     ".": {
