@@ -5,6 +5,7 @@ const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 export interface WebSocketReconnect {
   maxReconnectAttempts?: number;
   maxRetryAttempts?: number;
+  useRelayQueue?: boolean;
 }
 // a class object to handle websocket connection and reconnection with exponential back-off
 export default class WSReconnect extends EventEmitter {
@@ -16,6 +17,7 @@ export default class WSReconnect extends EventEmitter {
   private retryAttempts: number;
   private maxRetryAttempts: number;
   private forcedClose: boolean;
+  private useRelayQueue: boolean;
 
   constructor(url: string, options?: WebSocketReconnect) {
     super();
@@ -27,6 +29,7 @@ export default class WSReconnect extends EventEmitter {
     this.retryAttempts = 0;
     this.maxRetryAttempts = options?.maxRetryAttempts ?? 3;
     this.forcedClose = false;
+    this.useRelayQueue = options.useRelayQueue ?? true;
 
     this.ws = new WebSocket(url);
 
@@ -61,7 +64,7 @@ export default class WSReconnect extends EventEmitter {
   public send = (data: string) => {
     if (this.ws.readyState === this.ws.OPEN) {
       this.ws.send(data);
-    } else {
+    } else if (this.useRelayQueue) {
       this.messageQueue.push(data);
     }
   };
@@ -77,7 +80,9 @@ export default class WSReconnect extends EventEmitter {
     this.ws.onopen = this.onOpen;
     this.ws.onmessage = this.onMessage;
 
-    this.relayQueuedMessages();
+    if (this.useRelayQueue) {
+      this.relayQueuedMessages();
+    }
   };
 
   private relayQueuedMessages = async () => {
