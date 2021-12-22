@@ -6,7 +6,9 @@ Simple WebSocket wrapper with reconnect logic
 
 ## Motivation
 
-> The Websocket API although effective and simple doesn't provide any reconnection logic. This library aims to solve this shortcoming by providing a mechanism to shore up `session_affinity` between the client [a web browser] and the server. It also provides a simple queue implementation where data being sent while the connection is broken are stored, to be relayed when connection is restored. Note that the library is just a wrapper for WebSocket class and re-exposes all it's API. It's also built on an event interface which allows it to emit native WebSocket events.
+> The Websocket API although effective and simple doesn't provide any reconnection logic. This library aims to solve this shortcoming by providing a mechanism to shore up `session_affinity` between the client [a web browser] and the server. It also provides a simple queue implementation where data being sent while the connection is broken are stored, to be relayed when connection is restored. 
+> 
+> Note that the library is just a wrapper for WebSocket class and re-exposes all it's API. It's also built on an event interface which allows it to emit native WebSocket events.
 
 ## installation
 
