@@ -109,7 +109,7 @@ export default class WSReconnect extends EventEmitter {
         this.reconnectAttempts++;
         console.log("ws: reconnecting - attempt: ", this.reconnectAttempts);
 
-        this.ws.close();
+        this.close();
         this.ws = new WebSocket(this.ws.url);
         this.ws.onopen = () => {
           console.log("ws: connection restored!");
