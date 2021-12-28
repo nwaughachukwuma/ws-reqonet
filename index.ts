@@ -29,7 +29,7 @@ export default class WSReconnect extends EventEmitter {
     this.retryAttempts = 0;
     this.maxRetryAttempts = options?.maxRetryAttempts ?? 3;
     this.forcedClose = false;
-    this.useRelayQueue = options.useRelayQueue ?? true;
+    this.useRelayQueue = options?.useRelayQueue ?? true;
 
     this.ws = new WebSocket(url);
 
