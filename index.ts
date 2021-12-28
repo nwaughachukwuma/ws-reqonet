@@ -104,12 +104,13 @@ export default class WSReconnect extends EventEmitter {
       clearInterval(this.intervalRef);
     }
 
+    const TIMEOUT = Math.pow(2, this.retryAttempts + 1) * 1000;
     this.intervalRef = window.setInterval(() => {
       if (this.reconnectAttempts < this.maxReconnectAttempts) {
         this.reconnectAttempts++;
         console.log("ws: reconnecting - attempt: ", this.reconnectAttempts);
 
-        this.close();
+        this.ws.close();
         this.ws = new WebSocket(this.ws.url);
         this.ws.onopen = () => {
           console.log("ws: connection restored!");
@@ -131,6 +132,6 @@ export default class WSReconnect extends EventEmitter {
           clearInterval(this.intervalRef);
         }
       }
-    }, Math.pow(2, this.retryAttempts + 1) * 1000);
+    }, TIMEOUT);
   };
 }
