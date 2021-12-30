@@ -34,6 +34,7 @@ jobs:
             **/node_modules
           key: ${{ runner.os }}-${{ matrix.node-version }}-modules-${{ hashFiles('**/package-lock.json') }}
       - run: npm install
+      - run: npm run test
       - run: npm run build
       - if: matrix.node-version == 12
         uses: JS-DevTools/npm-publish@v1
