@@ -3,21 +3,24 @@ import { EventEmitter } from "events";
 const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export interface WebSocketReconnect {
+  /** The maximum number of times to attempt a reconnect - retry frequency */
   maxReconnectAttempts?: number;
+  /** how many attempts at reconnecting */
   maxRetryAttempts?: number;
+  /** Whether to store 'send' data when the connection is broken  */
   useRelayQueue?: boolean;
 }
-// a class object to handle websocket connection and reconnection with exponential back-off
+// websocket connection and reconnection with exponential back-off
 export default class WSReconnect extends EventEmitter {
   private ws: WebSocket;
   private reconnectAttempts: number;
   private maxReconnectAttempts: number;
-  private intervalRef: number;
-  private messageQueue: string[];
   private retryAttempts: number;
   private maxRetryAttempts: number;
-  private forcedClose: boolean;
+  private intervalRef: number;
+  private messageQueue: string[];
   private useRelayQueue: boolean;
+  private forcedClose: boolean;
 
   constructor(url: string, options?: WebSocketReconnect) {
     super();

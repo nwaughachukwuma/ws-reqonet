@@ -84,4 +84,4 @@ The maximum number of retries - how many attempts at reconnecting
 Type: `boolean`
 Default: true
 
-Whether to store the data from `send` method when the connection is broken, which is to be relayed when connection is restored.
+Whether to store 'send' data when the connection is broken, which is to be relayed when connection is restored.
