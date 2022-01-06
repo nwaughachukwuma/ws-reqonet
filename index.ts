@@ -3,7 +3,7 @@ import { EventEmitter } from "events";
 const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export interface WebSocketReconnect {
-  /** The maximum number of times to attempt a reconnect - retry frequency */
+  /** Number of times it attempts to reconnect within a retry */
   maxReconnectAttempts?: number;
   /** how many attempts at reconnecting */
   maxRetryAttempts?: number;
@@ -30,7 +30,7 @@ export default class WSReconnect extends EventEmitter {
     this.intervalRef = 0;
     this.messageQueue = [];
     this.retryAttempts = 0;
-    this.maxRetryAttempts = options?.maxRetryAttempts ?? 3;
+    this.maxRetryAttempts = options?.maxRetryAttempts ?? 5;
     this.forcedClose = false;
     this.useMessageQueue = options?.useMessageQueue ?? true;
 

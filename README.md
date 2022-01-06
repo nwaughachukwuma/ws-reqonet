@@ -70,12 +70,12 @@ Type: `object`
 Type: `number`
 Default: 5
 
-The maximum number of times to attempt a reconnect - retry frequency
+Number of times it attempts to reconnect within a retry
   
 #### maxRetryAttempts
 
 Type: `number`
-Default: 3
+Default: 5
 
 The maximum number of retries - how many attempts at reconnecting
 
