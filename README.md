@@ -32,7 +32,7 @@ const url = `ws://localhost:3001/`;
 const options = {
   maxReconnectAttempts: 5,
   maxRetryAttempts: 3,
-  useRelayQueue: true
+  useMessageQueue: true
 };
 
 // initialize
@@ -79,7 +79,7 @@ Default: 3
 
 The maximum number of retries - how many attempts at reconnecting
 
-#### useRelayQueue
+#### useMessageQueue
 
 Type: `boolean`
 Default: true

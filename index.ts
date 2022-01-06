@@ -8,7 +8,7 @@ export interface WebSocketReconnect {
   /** how many attempts at reconnecting */
   maxRetryAttempts?: number;
   /** Whether to store 'send' data when the connection is broken  */
-  useRelayQueue?: boolean;
+  useMessageQueue?: boolean;
 }
 // websocket connection and reconnection with exponential back-off
 export default class WSReconnect extends EventEmitter {
@@ -19,7 +19,7 @@ export default class WSReconnect extends EventEmitter {
   private maxRetryAttempts: number;
   private intervalRef: number;
   private messageQueue: string[];
-  private useRelayQueue: boolean;
+  private useMessageQueue: boolean;
   private forcedClose: boolean;
 
   constructor(url: string, options?: WebSocketReconnect) {
@@ -32,7 +32,7 @@ export default class WSReconnect extends EventEmitter {
     this.retryAttempts = 0;
     this.maxRetryAttempts = options?.maxRetryAttempts ?? 3;
     this.forcedClose = false;
-    this.useRelayQueue = options?.useRelayQueue ?? true;
+    this.useMessageQueue = options?.useMessageQueue ?? true;
 
     this.ws = new WebSocket(url);
 
@@ -67,7 +67,7 @@ export default class WSReconnect extends EventEmitter {
   public send = (data: string) => {
     if (this.ws.readyState === this.ws.OPEN) {
       this.ws.send(data);
-    } else if (this.useRelayQueue) {
+    } else if (this.useMessageQueue) {
       this.messageQueue.push(data);
     }
   };
@@ -83,7 +83,7 @@ export default class WSReconnect extends EventEmitter {
     this.ws.onopen = this.onOpen;
     this.ws.onmessage = this.onMessage;
 
-    if (this.useRelayQueue) {
+    if (this.useMessageQueue) {
       this.relayQueuedMessages();
     }
   };
