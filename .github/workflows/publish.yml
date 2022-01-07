@@ -10,6 +10,7 @@ on:
     paths:
       - "index.ts"
       - "README.md"
+      - "./github/workflows/publish.yml"
 
 jobs:
   publish:
