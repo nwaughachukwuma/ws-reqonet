@@ -18,9 +18,11 @@
     }
   },
   "scripts": {
+    "prepare": "husky install",
     "tsc": "tsc",
     "build": "tsc && tsup",
-    "test": "tsd && ava"
+    "test": "tsd && ava",
+    "pretty-quick": "pretty-quick --staged"
   },
   "sideEffects": false,
   "files": [
@@ -55,10 +57,5 @@
   },
   "tsd": {
     "directory": "./tsd"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "pretty-quick --staged"
-    }
   }
 }
