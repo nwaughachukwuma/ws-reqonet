@@ -63,6 +63,8 @@ test.serial("WSRekanet can force close client connection", async (t) => {
   const app = new TestApp(FAKE_URL);
 
   await sleep(WAIT_TIME);
+  t.is(app.instance.isOpen(), true);
+
   app.instance.close();
 
   await sleep(WAIT_TIME);
