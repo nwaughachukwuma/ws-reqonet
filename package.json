@@ -17,6 +17,11 @@
       "require": "./lib/index.cjs"
     }
   },
+  "scripts": {
+    "tsc": "tsc",
+    "build": "tsc && tsup",
+    "test": "tsd && ava"
+  },
   "sideEffects": false,
   "files": [
     "lib"
@@ -25,11 +30,6 @@
     "server",
     "app"
   ],
-  "scripts": {
-    "tsc": "tsc",
-    "build": "tsc && tsup",
-    "test": "tsd"
-  },
   "keywords": [
     "ws-reconnect",
     "reconnect-ws",
@@ -41,6 +41,8 @@
   },
   "devDependencies": {
     "@types/events": "^3.0.0",
+    "ava": "^4.0.0",
+    "mock-socket": "^9.0.8",
     "tsd": "^0.19.1",
     "tsup": "^5.11.6",
     "typescript": "^4.5.4"
@@ -49,6 +51,6 @@
     "node": ">=12.0.0"
   },
   "tsd": {
-		"directory": "./tsd"
-	}
+    "directory": "./tsd"
+  }
 }
