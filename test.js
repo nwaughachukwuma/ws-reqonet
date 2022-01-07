@@ -56,6 +56,43 @@ test.serial("WSRekanet can listen on close connection", async (t) => {
   mockServer.stop(t.done);
 });
 
+test.serial("WSRekanet can force close client connection", async (t) => {
+  const mockServer = new Server(FAKE_URL);
+  mockServer.on("connection", () => {});
+
+  const app = new TestApp(FAKE_URL);
+
+  await sleep(WAIT_TIME);
+  app.instance.close();
+
+  await sleep(WAIT_TIME);
+  t.not(app.instance.isOpen(), true);
+
+  mockServer.stop(t.done);
+});
+
+test.serial(
+  "WSRekanet does not emit 'close' when force close client",
+  async (t) => {
+    const mockServer = new Server(FAKE_URL);
+    mockServer.on("connection", () => {});
+
+    const app = new TestApp(FAKE_URL);
+    app.instance.on("close", () => {
+      // should fail if force close client emits 'close' event
+      t.fail();
+    });
+
+    await sleep(WAIT_TIME);
+    app.instance.close();
+
+    await sleep(WAIT_TIME);
+    t.pass();
+
+    mockServer.stop(t.done);
+  }
+);
+
 test.serial("WSRekanet can listen on errored connection", async (t) => {
   const DIFF_FAKE_URL = "ws://localhost:8080/diff";
 
