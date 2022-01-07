@@ -65,7 +65,7 @@ export default class WSReconnect extends EventEmitter {
   };
 
   public send = (data: string) => {
-    if (this.ws.readyState === this.ws.OPEN) {
+    if (this.isOpen()) {
       this.ws.send(data);
     } else if (this.useMessageQueue) {
       this.messageQueue.push(data);
@@ -139,4 +139,6 @@ export default class WSReconnect extends EventEmitter {
 
     clearInterval(this.intervalRef);
   };
+
+  public isOpen = () => this.ws.readyState === this.ws.OPEN;
 }
