@@ -22,7 +22,7 @@ export default class WSReconnect extends EventEmitter {
   private useMessageQueue: boolean;
   private forcedClose: boolean;
 
-  constructor(url: string, options?: WebSocketReconnect) {
+  constructor(url: string | URL, options?: WebSocketReconnect) {
     super();
 
     this.reconnectAttempts = 0;
