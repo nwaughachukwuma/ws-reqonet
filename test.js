@@ -5,21 +5,27 @@ import WSRekanet from "./lib/index.js";
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 class TestApp {
+  #messages;
+  #wsClient;
   constructor(url) {
-    this.messages = [];
-    this.connection = new WSRekanet(url);
+    this.#messages = [];
+    this.#wsClient = new WSRekanet(url);
 
-    this.connection.on("message", (event) => {
-      this.messages.push(event.data);
+    this.#wsClient.on("message", (event) => {
+      this.#messages.push(event.data);
     });
   }
 
   sendMessage(message) {
-    this.connection.send(message);
+    this.#wsClient.send(message);
   }
 
-  get instance() {
-    return this.connection;
+  get messages() {
+    return this.#messages;
+  }
+
+  get ws() {
+    return this.#wsClient;
   }
 }
 
@@ -33,7 +39,7 @@ test.serial("WSRekanet can listen on open connection", async (t) => {
   mockServer.on("connection", () => {});
 
   const app = new TestApp(FAKE_URL);
-  app.instance.on("open", () => {
+  app.ws.on("open", () => {
     t.pass();
   });
 
@@ -48,7 +54,7 @@ test.serial("WSRekanet can listen on close connection", async (t) => {
   });
 
   const app = new TestApp(FAKE_URL);
-  app.instance.on("close", () => {
+  app.ws.on("close", () => {
     t.pass();
   });
 
@@ -63,12 +69,12 @@ test.serial("WSRekanet can force close client connection", async (t) => {
   const app = new TestApp(FAKE_URL);
 
   await sleep(SLEEP_DURATION);
-  t.is(app.instance.isOpen(), true);
+  t.is(app.ws.isOpen(), true);
 
-  app.instance.close();
+  app.ws.close();
 
   await sleep(SLEEP_DURATION);
-  t.not(app.instance.isOpen(), true);
+  t.not(app.ws.isOpen(), true);
 
   mockServer.stop(t.done);
 });
@@ -83,12 +89,12 @@ test.serial(
     mockServer.on("connection", () => {});
 
     const app = new TestApp(FAKE_URL);
-    app.instance.on("close", () => {
+    app.ws.on("close", () => {
       t.fail();
     });
 
     await sleep(SLEEP_DURATION);
-    app.instance.close();
+    app.ws.close();
 
     await sleep(SLEEP_DURATION);
     t.pass();
@@ -104,7 +110,7 @@ test.serial("WSRekanet can listen on errored connection", async (t) => {
   mockServer.on("connection", () => {});
 
   const app = new TestApp(FAKE_URL);
-  app.instance.on("error", (error) => {
+  app.ws.on("error", (error) => {
     t.is(error.type, "error");
   });
 
