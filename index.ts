@@ -18,7 +18,7 @@ export default class WSReconnect extends EventEmitter {
   private retryAttempts: number;
   private maxRetryAttempts: number;
   private intervalRef: number;
-  private messageQueue: string[];
+  private messageQueue: Array<string | Blob | ArrayBuffer | ArrayBufferView>;
   private useMessageQueue: boolean;
   private forcedClose: boolean;
 
@@ -65,7 +65,7 @@ export default class WSReconnect extends EventEmitter {
   };
 
   /** send data to websocket server */
-  public send = (data: string) => {
+  public send = (data: string | Blob | ArrayBuffer | ArrayBufferView) => {
     if (this.isOpen()) {
       this.ws.send(data);
     } else if (this.useMessageQueue) {
