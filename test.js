@@ -76,12 +76,14 @@ test.serial("WSRekanet can force close client connection", async (t) => {
 test.serial(
   "WSRekanet does not emit 'close' when force close client",
   async (t) => {
+    // indicate that only one assertion is expected
+    t.plan(1);
+
     const mockServer = new Server(FAKE_URL);
     mockServer.on("connection", () => {});
 
     const app = new TestApp(FAKE_URL);
     app.instance.on("close", () => {
-      // should fail if force close client emits 'close' event
       t.fail();
     });
 
@@ -89,7 +91,6 @@ test.serial(
     app.instance.close();
 
     await sleep(SLEEP_DURATION);
-    // add a pass to avoid failing with 'no assertions'
     t.pass();
 
     mockServer.stop(t.done);
