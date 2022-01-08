@@ -29,6 +29,7 @@ npm install ws-rekanet
 import WSRekanet from "ws-rekanet";
 
 const url = `ws://localhost:3001/`;
+const protocols = [];
 const options = {
   maxReconnectAttempts: 5,
   maxRetryAttempts: 3,
@@ -36,7 +37,7 @@ const options = {
 };
 
 // initialize
-const wsClient = new WSRekanet(url, options);
+const wsClient = new WSRekanet(url, protocols, options);
 
 wsClient.on("open", () => {
   console.log("websocket connection established");
@@ -60,6 +61,13 @@ wsClient.send(JSON.stringify(payload));
 ### url
 
 Type: `string`
+
+### protocols
+
+Type: `string | string[]`
+Default: []
+
+Either a single protocol string or an array of protocol strings. These strings are used to indicate sub-protocols, so that a single server can implement multiple WebSocket sub-protocols (for example, you might want one server to be able to handle different types of interactions depending on the specified protocol). See more [MDN](https://developer.mozilla.org/en-US/docs/Web/API/WebSocket/WebSocket), [WhatWG#web-sockets](https://html.spec.whatwg.org/multipage/web-sockets.html#websocket)
 
 ### options
 
