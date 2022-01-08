@@ -26,7 +26,7 @@ class TestApp {
 const FAKE_URL = "ws://localhost:8080";
 const SERVER_RESPONSE = "test message from mock server";
 const CLIENT_MESSAGE = "test message from app";
-const WAIT_TIME = 100;
+const SLEEP_DURATION = 100;
 
 test.serial("WSRekanet can listen on open connection", async (t) => {
   const mockServer = new Server(FAKE_URL);
@@ -37,7 +37,7 @@ test.serial("WSRekanet can listen on open connection", async (t) => {
     t.pass();
   });
 
-  await sleep(WAIT_TIME);
+  await sleep(SLEEP_DURATION);
   mockServer.stop(t.done);
 });
 
@@ -52,7 +52,7 @@ test.serial("WSRekanet can listen on close connection", async (t) => {
     t.pass();
   });
 
-  await sleep(WAIT_TIME);
+  await sleep(SLEEP_DURATION);
   mockServer.stop(t.done);
 });
 
@@ -62,12 +62,12 @@ test.serial("WSRekanet can force close client connection", async (t) => {
 
   const app = new TestApp(FAKE_URL);
 
-  await sleep(WAIT_TIME);
+  await sleep(SLEEP_DURATION);
   t.is(app.instance.isOpen(), true);
 
   app.instance.close();
 
-  await sleep(WAIT_TIME);
+  await sleep(SLEEP_DURATION);
   t.not(app.instance.isOpen(), true);
 
   mockServer.stop(t.done);
@@ -85,10 +85,11 @@ test.serial(
       t.fail();
     });
 
-    await sleep(WAIT_TIME);
+    await sleep(SLEEP_DURATION);
     app.instance.close();
 
-    await sleep(WAIT_TIME);
+    await sleep(SLEEP_DURATION);
+    // add a pass to avoid failing with 'no assertions'
     t.pass();
 
     mockServer.stop(t.done);
@@ -99,16 +100,14 @@ test.serial("WSRekanet can listen on errored connection", async (t) => {
   const DIFF_FAKE_URL = "ws://localhost:8080/diff";
 
   const mockServer = new Server(DIFF_FAKE_URL);
-  mockServer.on("connection", (socket) => {
-    socket.close();
-  });
+  mockServer.on("connection", () => {});
 
   const app = new TestApp(FAKE_URL);
   app.instance.on("error", (error) => {
     t.is(error.type, "error");
   });
 
-  await sleep(WAIT_TIME);
+  await sleep(SLEEP_DURATION);
   mockServer.stop(t.done);
 });
 
@@ -120,7 +119,7 @@ test.serial("websocket client can receive message from server", async (t) => {
 
   const app = new TestApp(FAKE_URL);
 
-  await sleep(WAIT_TIME);
+  await sleep(SLEEP_DURATION);
 
   t.is(app.messages.length, 1);
   t.is(app.messages[0], SERVER_RESPONSE, "server message received");
@@ -142,10 +141,10 @@ test.serial("websocket server can receive message from client", async (t) => {
 
   const app = new TestApp(FAKE_URL);
 
-  await sleep(WAIT_TIME);
+  await sleep(SLEEP_DURATION);
   app.sendMessage(CLIENT_MESSAGE);
 
-  await sleep(WAIT_TIME);
+  await sleep(SLEEP_DURATION);
   mockServer.stop(t.done);
 });
 
@@ -167,10 +166,10 @@ test.serial(
 
     const app = new TestApp(FAKE_URL);
 
-    await sleep(WAIT_TIME);
+    await sleep(SLEEP_DURATION);
     app.sendMessage(CLIENT_MESSAGE);
 
-    await sleep(WAIT_TIME);
+    await sleep(SLEEP_DURATION);
 
     t.is(app.messages.length, 1);
     t.is(app.messages[0], SERVER_RESPONSE, "subbed the websocket backend");
