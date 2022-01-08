@@ -2,7 +2,7 @@ import { EventEmitter } from "events";
 
 const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
-export interface WebSocketReconnect {
+export interface WSRekanetOptions {
   /** Number of times it attempts to reconnect within a retry */
   maxReconnectAttempts?: number;
   /** how many attempts at reconnecting */
@@ -11,7 +11,7 @@ export interface WebSocketReconnect {
   useMessageQueue?: boolean;
 }
 // websocket connection and reconnection with exponential back-off
-export default class WSReconnect extends EventEmitter {
+export default class WSRekanet extends EventEmitter {
   private ws: WebSocket;
   private reconnectAttempts: number;
   private maxReconnectAttempts: number;
@@ -22,7 +22,11 @@ export default class WSReconnect extends EventEmitter {
   private useMessageQueue: boolean;
   private forcedClose: boolean;
 
-  constructor(url: string | URL, options?: WebSocketReconnect) {
+  constructor(
+    url: string | URL,
+    protocols: string | string[] = [],
+    options?: WSRekanetOptions
+  ) {
     super();
 
     this.reconnectAttempts = 0;
@@ -34,7 +38,7 @@ export default class WSReconnect extends EventEmitter {
     this.forcedClose = false;
     this.useMessageQueue = options?.useMessageQueue ?? true;
 
-    this.ws = new WebSocket(url);
+    this.ws = new WebSocket(url, protocols);
 
     this.initEventListeners();
     this.connect();
