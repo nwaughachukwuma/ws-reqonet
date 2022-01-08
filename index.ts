@@ -64,6 +64,7 @@ export default class WSReconnect extends EventEmitter {
     }
   };
 
+  /** send data to websocket server */
   public send = (data: string) => {
     if (this.isOpen()) {
       this.ws.send(data);
@@ -72,6 +73,7 @@ export default class WSReconnect extends EventEmitter {
     }
   };
 
+  /** force close the connection */
   public close = () => {
     this.forcedClose = true;
     this.ws.close();
@@ -88,6 +90,7 @@ export default class WSReconnect extends EventEmitter {
     }
   };
 
+  /** relay messages that were queued while the connection was closed */
   private relayQueuedMessages = async () => {
     const messageQueue = [...this.messageQueue];
     for (const msg of messageQueue) {
@@ -140,5 +143,6 @@ export default class WSReconnect extends EventEmitter {
     clearInterval(this.intervalRef);
   };
 
+  /** check if connection is open */
   public isOpen = () => this.ws.readyState === this.ws.OPEN;
 }
