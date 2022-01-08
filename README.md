@@ -85,3 +85,13 @@ Type: `boolean`
 Default: true
 
 Whether to store 'send' data when the connection is broken, which is to be relayed when connection is restored.
+
+### Events
+
+#### open, close, message, error
+
+These are the same as native [WebSocket events](https://html.spec.whatwg.org/multipage/web-sockets.html#websocket)
+
+#### reconnection_timeout
+
+Indicates when reconnection attempts timeout.

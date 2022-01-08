@@ -127,6 +127,7 @@ export default class WSReconnect extends EventEmitter {
           this.reconnectAttempts = 0;
           this.reconnect();
         } else {
+          this.emit("reconnection_timeout");
           clearInterval(this.intervalRef);
         }
       }
