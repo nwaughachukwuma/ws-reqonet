@@ -9,7 +9,7 @@ class TestApp {
   #wsClient;
   constructor(url) {
     this.#messages = [];
-    this.#wsClient = new WSRekanet(url);
+    this.#wsClient = new WSRekanet(url, [], { disableLogging: true });
 
     this.#wsClient.on("message", (event) => {
       this.#messages.push(event.data);
