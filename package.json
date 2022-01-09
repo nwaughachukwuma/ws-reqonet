@@ -44,6 +44,7 @@
   "devDependencies": {
     "@types/events": "^3.0.0",
     "ava": "^4.0.0",
+    "browser-env": "^3.3.0",
     "husky": "^7.0.4",
     "mock-socket": "^9.0.8",
     "prettier": "^2.5.1",
@@ -57,5 +58,10 @@
   },
   "tsd": {
     "directory": "./tsd"
+  },
+  "ava": {
+    "require": [
+      "./test/_setup-browser-env.cjs"
+    ]
   }
 }
