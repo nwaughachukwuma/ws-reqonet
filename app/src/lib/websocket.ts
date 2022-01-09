@@ -1,4 +1,5 @@
-import WSRekanet from '../../../lib/index.js';
+// import WSRekanet from '../../../lib/index.js';
+import WSRekanet from 'ws-rekanet';
 
 const API_URL = 'http://localhost:8080';
 export default function websocket(): WSRekanet {
