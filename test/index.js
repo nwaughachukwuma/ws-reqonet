@@ -1,6 +1,6 @@
 import test from "ava";
 import { Server } from "mock-socket";
-import WSRekanet from "./lib/index.js";
+import WSRekanet from "../lib/index.js";
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
