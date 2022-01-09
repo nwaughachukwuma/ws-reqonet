@@ -118,6 +118,33 @@ test.serial("WSRekanet can listen on errored connection", async (t) => {
   mockServer.stop(t.done);
 });
 
+test.serial("WSRekanet can handle reconnect to server", async (t) => {
+  t.plan(4);
+
+  let mockServer = new Server(FAKE_URL);
+  mockServer.on("connection", () => {
+    t.pass("initial connection established");
+  });
+
+  const app = new TestApp(FAKE_URL);
+  app.ws.on("close", () => {
+    t.pass("clean close from server");
+  });
+
+  await sleep(SLEEP_DURATION);
+  mockServer.close();
+  t.not(app.ws.isOpen(), true);
+  // --------------------------------------------------
+  // attempt to reconnect to server
+  // --------------------------------------------------
+  // reopen the server connection
+  mockServer = new Server(FAKE_URL);
+  // wait enough time for reconnection attempts to kick in
+  await sleep(SLEEP_DURATION * 30);
+  t.is(app.ws.isOpen(), true);
+  mockServer.stop(t.done);
+});
+
 test.serial("websocket client can receive message from server", async (t) => {
   const mockServer = new Server(FAKE_URL);
   mockServer.on("connection", (socket) => {
