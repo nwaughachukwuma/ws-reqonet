@@ -94,6 +94,13 @@ Default: true
 
 Whether to store 'send' data when the connection is broken, which is to be relayed when connection is restored.
 
+#### disableReconnect
+
+Type: `boolean`
+Default: false
+
+Whether to disable reconnection
+
 ### Events
 
 #### open, close, message, error

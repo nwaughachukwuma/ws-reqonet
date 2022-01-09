@@ -9,6 +9,8 @@ export interface WSRekanetOptions {
   maxRetryAttempts?: number;
   /** Whether to store 'send' data when the connection is broken  */
   useMessageQueue?: boolean;
+  /** whether to disable reconnection */
+  disableReconnect?: boolean;
 }
 // websocket connection and reconnection with exponential back-off
 export default class WSRekanet extends EventEmitter {
@@ -21,6 +23,7 @@ export default class WSRekanet extends EventEmitter {
   private messageQueue: Array<string | Blob | ArrayBuffer | ArrayBufferView>;
   private useMessageQueue: boolean;
   private forcedClose: boolean;
+  private disableReconnect: boolean;
 
   constructor(
     url: string | URL,
@@ -37,6 +40,7 @@ export default class WSRekanet extends EventEmitter {
     this.maxRetryAttempts = options?.maxRetryAttempts ?? 5;
     this.forcedClose = false;
     this.useMessageQueue = options?.useMessageQueue ?? true;
+    this.disableReconnect = options?.disableReconnect ?? false;
 
     this.ws = new window.WebSocket(url, protocols);
 
@@ -102,7 +106,7 @@ export default class WSRekanet extends EventEmitter {
   };
 
   private reconnect = () => {
-    if (this.forcedClose) return;
+    if (this.forcedClose || this.disableReconnect) return;
 
     console.log("ws: reconnecting...");
 
