@@ -40,13 +40,7 @@ export default class WSRekanet extends EventEmitter {
 
     this.ws = new WebSocket(url, protocols);
 
-    this.initEventListeners();
     this.connect();
-  }
-
-  private initEventListeners() {
-    this.ws.addEventListener("close", this.reconnect, { once: true });
-    this.ws.addEventListener("error", this.reconnect, { once: true });
   }
 
   private onOpen = () => {
@@ -60,11 +54,13 @@ export default class WSRekanet extends EventEmitter {
 
   private onError = (error: Event) => {
     this.emit("error", error);
+    this.reconnect();
   };
 
   private onClose = () => {
     if (!this.forcedClose) {
       this.emit("close");
+      this.reconnect();
     }
   };
 
@@ -142,7 +138,6 @@ export default class WSRekanet extends EventEmitter {
     console.log("ws: connection restored!");
 
     this.reconnectAttempts = 0;
-    this.initEventListeners();
     this.connect();
 
     clearInterval(this.intervalRef);
