@@ -101,6 +101,13 @@ Default: false
 
 Whether to disable reconnection
 
+#### disableLogging
+
+Type: `boolean`
+Default: false
+
+Whether to disable logging
+
 ### Events
 
 #### open, close, message, error
