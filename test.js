@@ -44,7 +44,7 @@ test.serial("WSRekanet can listen on open connection", async (t) => {
   });
 
   await sleep(SLEEP_DURATION);
-  mockServer.stop(t.done);
+  mockServer.stop();
 });
 
 test.serial("WSRekanet can listen on close connection", async (t) => {
@@ -59,7 +59,7 @@ test.serial("WSRekanet can listen on close connection", async (t) => {
   });
 
   await sleep(SLEEP_DURATION);
-  mockServer.stop(t.done);
+  mockServer.stop();
 });
 
 test.serial("WSRekanet can force close client connection", async (t) => {
@@ -76,7 +76,7 @@ test.serial("WSRekanet can force close client connection", async (t) => {
   await sleep(SLEEP_DURATION);
   t.not(app.ws.isOpen(), true);
 
-  mockServer.stop(t.done);
+  mockServer.stop();
 });
 
 test.serial(
@@ -99,7 +99,7 @@ test.serial(
     await sleep(SLEEP_DURATION);
     t.pass();
 
-    mockServer.stop(t.done);
+    mockServer.stop();
   }
 );
 
@@ -115,7 +115,7 @@ test.serial("WSRekanet can listen on errored connection", async (t) => {
   });
 
   await sleep(SLEEP_DURATION);
-  mockServer.stop(t.done);
+  mockServer.stop();
 });
 
 test.serial("WSRekanet can handle reconnect to server", async (t) => {
@@ -142,7 +142,7 @@ test.serial("WSRekanet can handle reconnect to server", async (t) => {
   // wait enough time for reconnection attempts to kick in
   await sleep(SLEEP_DURATION * 30);
   t.is(app.ws.isOpen(), true);
-  mockServer.stop(t.done);
+  mockServer.stop();
 });
 
 test.serial("WSRekanet client can relay queued sent messages", async (t) => {
@@ -175,7 +175,7 @@ test.serial("WSRekanet client can relay queued sent messages", async (t) => {
 
   t.is(app.ws.isOpen(), true);
   t.is(app.messages.length, 3, "confirm that three message were received");
-  mockServer.stop(t.done);
+  mockServer.stop();
 });
 
 test.serial("websocket client can receive message from server", async (t) => {
@@ -191,7 +191,7 @@ test.serial("websocket client can receive message from server", async (t) => {
   t.is(app.messages.length, 1);
   t.is(app.messages[0], SERVER_RESPONSE, "server message received");
 
-  mockServer.stop(t.done);
+  mockServer.stop();
 });
 
 test.serial("websocket server can receive message from client", async (t) => {
@@ -212,7 +212,7 @@ test.serial("websocket server can receive message from client", async (t) => {
   app.sendMessage(CLIENT_MESSAGE);
 
   await sleep(SLEEP_DURATION);
-  mockServer.stop(t.done);
+  mockServer.stop();
 });
 
 test.serial(
@@ -241,6 +241,6 @@ test.serial(
     t.is(app.messages.length, 1);
     t.is(app.messages[0], SERVER_RESPONSE, "subbed the websocket backend");
 
-    mockServer.stop(t.done);
+    mockServer.stop();
   }
 );
