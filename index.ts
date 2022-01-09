@@ -114,7 +114,6 @@ export default class WSRekanet extends EventEmitter {
     this.intervalRef = window.setInterval(() => {
       if (this.reconnectAttempts < this.maxReconnectAttempts) {
         this.reconnectAttempts++;
-        console.log("ws: reconnecting - attempt: ", this.reconnectAttempts);
 
         this.ws.close();
         this.ws = new window.WebSocket(this.ws.url);
@@ -122,7 +121,6 @@ export default class WSRekanet extends EventEmitter {
       } else {
         if (this.retryAttempts < this.maxRetryAttempts) {
           this.retryAttempts++;
-          console.log("ws: retrying - attempt: ", this.retryAttempts);
 
           this.reconnectAttempts = 0;
           this.reconnect();
