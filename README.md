@@ -101,12 +101,12 @@ Default: false
 
 Whether to disable reconnection
 
-#### disableLogging
+#### enableLogging
 
 Type: `boolean`
 Default: false
 
-Whether to disable logging
+Whether to enable logging
 
 ### Events
 
