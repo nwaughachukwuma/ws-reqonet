@@ -75,35 +75,35 @@ Type: `object`
 
 #### maxReconnectAttempts
 
-Type: `number`
+Type: `number`\
 Default: 5
 
 Number of times it attempts to reconnect within a retry
 
 #### maxRetryAttempts
 
-Type: `number`
+Type: `number`\
 Default: 5
 
 The maximum number of retries - how many attempts at reconnecting
 
 #### useMessageQueue
 
-Type: `boolean`
+Type: `boolean`\
 Default: true
 
 Whether to store 'send' data when the connection is broken, which is to be relayed when connection is restored.
 
 #### disableReconnect
 
-Type: `boolean`
+Type: `boolean`\
 Default: false
 
 Whether to disable reconnection
 
 #### enableLogging
 
-Type: `boolean`
+Type: `boolean`\
 Default: false
 
 Whether to enable logging
