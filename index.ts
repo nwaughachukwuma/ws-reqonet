@@ -38,7 +38,7 @@ export default class WSRekanet extends EventEmitter {
     this.forcedClose = false;
     this.useMessageQueue = options?.useMessageQueue ?? true;
 
-    this.ws = new WebSocket(url, protocols);
+    this.ws = new window.WebSocket(url, protocols);
 
     this.connect();
   }
@@ -117,7 +117,7 @@ export default class WSRekanet extends EventEmitter {
         console.log("ws: reconnecting - attempt: ", this.reconnectAttempts);
 
         this.ws.close();
-        this.ws = new WebSocket(this.ws.url);
+        this.ws = new window.WebSocket(this.ws.url);
         this.ws.onopen = this.onRestore;
       } else {
         if (this.retryAttempts < this.maxRetryAttempts) {
