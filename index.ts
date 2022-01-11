@@ -126,7 +126,6 @@ export default class WSRekanet extends EventEmitter {
         this.reconnectAttempts++;
         console.log("ws: reconnecting - attempt: ", this.reconnectAttempts);
 
-        this.ws.close();
         this.ws = new window.WebSocket(this.ws.url);
         this.ws.onopen = this.onRestore;
       } else {
@@ -146,11 +145,10 @@ export default class WSRekanet extends EventEmitter {
 
   private onRestore = () => {
     console.log("ws: connection restored!");
-
     this.reconnectAttempts = 0;
-    this.connect();
-
     clearInterval(this.intervalRef);
+
+    this.connect();
   };
 
   /** check if connection is open */
