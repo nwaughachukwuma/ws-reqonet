@@ -117,3 +117,7 @@ These are the same as native [WebSocket events](https://html.spec.whatwg.org/mul
 #### reconnection_timeout
 
 Indicates when reconnection attempts timeout.
+
+#### reconnected
+
+Emitted when reconnection attempt is successful - connection restored

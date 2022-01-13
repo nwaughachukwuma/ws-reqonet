@@ -148,6 +148,8 @@ export default class WSRekanet extends EventEmitter {
     this.reconnectAttempts = 0;
     window.clearInterval(this.intervalRef);
 
+    this.emit("open");
+    this.emit("reconnected");
     this.connect();
   };
 
