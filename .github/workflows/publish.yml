@@ -9,6 +9,8 @@ on:
       - "index.ts"
       - "README.md"
       - "./github/workflows/publish.yml"
+    tags:
+      - "v*"
 
 jobs:
   publish:
