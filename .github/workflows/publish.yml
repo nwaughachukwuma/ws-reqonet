@@ -8,7 +8,7 @@ on:
     paths:
       - "index.ts"
       - "README.md"
-      - "./github/workflows/publish.yml"
+      - ".github/workflows/publish.yml"
     tags:
       - "v*"
 
