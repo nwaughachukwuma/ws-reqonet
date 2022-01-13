@@ -35,7 +35,18 @@ jobs:
       - run: npm install
       - run: npm run build
       - run: npm run test
+      - name: generate release changelog
+        uses: heinrichreimer/github-changelog-generator-action@v2.3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
       - if: matrix.node-version == 12
         uses: JS-DevTools/npm-publish@v1
         with:
           token: ${{ secrets.NPM_TOKEN }}
+      - name: release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          generate_release_notes: true
+          files: |
+            ./lib/**/*.ts
