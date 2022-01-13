@@ -29,7 +29,7 @@ export default class WSRekanet extends EventEmitter {
 
   constructor(
     url: string | URL,
-    protocols: string | string[] = [],
+    private protocols: string | string[] = [],
     options?: WSRekanetOptions
   ) {
     super();
@@ -126,7 +126,7 @@ export default class WSRekanet extends EventEmitter {
         this.reconnectAttempts++;
         console.log("ws: reconnecting - attempt: ", this.reconnectAttempts);
 
-        this.ws = new window.WebSocket(this.ws.url);
+        this.ws = new window.WebSocket(this.ws.url, this.protocols);
         this.ws.onopen = this.onRestore;
       } else {
         if (this.retryAttempts < this.maxRetryAttempts) {
