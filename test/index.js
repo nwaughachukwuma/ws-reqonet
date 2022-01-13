@@ -119,7 +119,7 @@ test.serial("WSRekanet can listen on errored connection", async (t) => {
 });
 
 test.serial("WSRekanet can handle reconnect to server", async (t) => {
-  t.plan(4);
+  t.plan(5);
 
   let mockServer = new Server(FAKE_URL);
   mockServer.on("connection", () => {
@@ -139,6 +139,9 @@ test.serial("WSRekanet can handle reconnect to server", async (t) => {
   // --------------------------------------------------
   // reopen the server connection
   mockServer = new Server(FAKE_URL);
+  app.ws.on("reconnected", () => {
+    t.pass("reconnection was successful");
+  });
   // wait enough time for reconnection attempts to kick in
   await sleep(SLEEP_DURATION * 30);
   t.is(app.ws.isOpen(), true);
