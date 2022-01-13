@@ -3,18 +3,18 @@ import { EventEmitter } from "events";
 const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export interface WSRekanetOptions {
-  /** Number of times it attempts to reconnect within a retry */
+  /** # of times to reconnect within a retry */
   maxReconnectAttempts?: number;
-  /** how many attempts at reconnecting */
+  /** # of attempts at reconnecting */
   maxRetryAttempts?: number;
-  /** Whether to store 'send' data when the connection is broken  */
+  /** Whether to store 'send' data when connection is broken  */
   useMessageQueue?: boolean;
   /** whether to disable reconnection */
   disableReconnect?: boolean;
   /** whether to enable logging */
   enableLogging?: boolean;
 }
-// websocket connection and reconnection with exponential back-off
+// websocket with reconnection on exponential back-off
 export default class WSRekanet extends EventEmitter {
   private ws: WebSocket;
   private reconnectAttempts: number;
@@ -49,7 +49,6 @@ export default class WSRekanet extends EventEmitter {
     }
 
     this.ws = new window.WebSocket(url, protocols);
-
     this.connect();
   }
 
@@ -74,8 +73,9 @@ export default class WSRekanet extends EventEmitter {
     }
   };
 
-  /** send data to websocket server */
-  public send = (data: string | Blob | ArrayBuffer | ArrayBufferView) => {
+  public send: WebSocket["send"] = (
+    data: string | Blob | ArrayBuffer | ArrayBufferView
+  ) => {
     if (this.isOpen()) {
       this.ws.send(data);
     } else if (this.useMessageQueue) {
@@ -83,10 +83,9 @@ export default class WSRekanet extends EventEmitter {
     }
   };
 
-  /** force close the connection */
-  public close = () => {
+  public close: WebSocket["close"] = (code?: number, reason?: string) => {
     this.forcedClose = true;
-    this.ws.close();
+    this.ws.close(code, reason);
   };
 
   private connect = async () => {
