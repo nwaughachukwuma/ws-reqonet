@@ -117,7 +117,7 @@ export default class WSRekanet extends EventEmitter {
     console.log("ws: reconnecting...");
 
     if (this.intervalRef) {
-      clearInterval(this.intervalRef);
+      window.clearInterval(this.intervalRef);
     }
 
     const TIMEOUT = Math.pow(2, this.retryAttempts + 1) * 1000;
@@ -137,7 +137,7 @@ export default class WSRekanet extends EventEmitter {
           this.reconnect();
         } else {
           this.emit("reconnection_timeout");
-          clearInterval(this.intervalRef);
+          window.clearInterval(this.intervalRef);
         }
       }
     }, TIMEOUT);
@@ -146,7 +146,7 @@ export default class WSRekanet extends EventEmitter {
   private onRestore = () => {
     console.log("ws: connection restored!");
     this.reconnectAttempts = 0;
-    clearInterval(this.intervalRef);
+    window.clearInterval(this.intervalRef);
 
     this.connect();
   };
