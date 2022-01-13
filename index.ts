@@ -11,8 +11,8 @@ export interface WSRekanetOptions {
   useMessageQueue?: boolean;
   /** whether to disable reconnection */
   disableReconnect?: boolean;
-  /** whether to enable logging */
-  enableLogging?: boolean;
+  /** enable to get console.log output */
+  debugMode?: boolean;
 }
 // websocket with reconnection on exponential back-off
 export default class WSRekanet extends EventEmitter {
@@ -44,7 +44,7 @@ export default class WSRekanet extends EventEmitter {
     this.useMessageQueue = options?.useMessageQueue ?? true;
     this.disableReconnect = options?.disableReconnect ?? false;
 
-    if (!options?.enableLogging) {
+    if (!options?.debugMode) {
       console.log = () => {};
     }
 
