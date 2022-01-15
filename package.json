@@ -61,7 +61,7 @@
   },
   "ava": {
     "require": [
-      "./test/_setup-browser-env.cjs"
+      "./test/_browser-env.cjs"
     ]
   }
 }
