@@ -1,4 +1,4 @@
-# ws-rekanet
+# wsreconnect
 
 [![Publish](https://github.com/nwaughachukwuma/ws-rekanet/actions/workflows/publish.yml/badge.svg)](https://github.com/nwaughachukwuma/ws-rekanet/actions/workflows/publish.yml)
 
