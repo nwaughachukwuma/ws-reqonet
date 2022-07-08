@@ -101,12 +101,12 @@ Default: false
 
 Whether to disable reconnection
 
-#### debugMode
+#### debug
 
 Type: `boolean`\
 Default: false
 
-Whether to run in debug mode which enables console.log output
+Whether to run in debug mode which enables logging to dev tools
 
 ### Events
 
