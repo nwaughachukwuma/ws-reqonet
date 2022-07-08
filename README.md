@@ -2,7 +2,7 @@
 
 [![Publish](https://github.com/nwaughachukwuma/ws-rekanet/actions/workflows/publish.yml/badge.svg)](https://github.com/nwaughachukwuma/ws-rekanet/actions/workflows/publish.yml)
 
-Simple WebSocket wrapper with reconnect logic
+Simple WebSocket wrapper with reconnect logic 💫
 
 ## Motivation
 
@@ -10,7 +10,7 @@ Simple WebSocket wrapper with reconnect logic
 >
 > Note that the library is just a wrapper for WebSocket class and re-exposes all it's API. It's also built on an event interface which allows it to emit native WebSocket events. Finally, it's properly tested using AVA.
 
-## installation
+## 🛠 installation
 
 ```bash
 # yarn
@@ -101,12 +101,12 @@ Default: false
 
 Whether to disable reconnection
 
-#### debugMode
+#### debug
 
 Type: `boolean`\
 Default: false
 
-Whether to run in debug mode which enables console.log output
+Whether to run in debug mode which enables logging to dev tools
 
 ### Events
 
