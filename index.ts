@@ -8,7 +8,7 @@ export interface WSRekanetOptions {
   /** # of attempts at reconnecting */
   maxRetryAttempts?: number;
   /** Whether to store 'send' data when connection is broken  */
-  useMessageQueue?: boolean;
+  queueMessage?: boolean;
   /** whether to disable reconnection */
   disableReconnect?: boolean;
   /** enable to get console.log output */
@@ -23,7 +23,7 @@ export default class WSRekanet extends EventEmitter {
   private maxRetryAttempts: number;
   private intervalRef: number;
   private messageQueue: Array<string | Blob | ArrayBuffer | ArrayBufferView>;
-  private useMessageQueue: boolean;
+  private queueMessage: boolean;
   private forcedClose: boolean;
   private disableReconnect: boolean;
 
@@ -41,7 +41,7 @@ export default class WSRekanet extends EventEmitter {
     this.retryAttempts = 0;
     this.maxRetryAttempts = options?.maxRetryAttempts ?? 5;
     this.forcedClose = false;
-    this.useMessageQueue = options?.useMessageQueue ?? true;
+    this.queueMessage = options?.queueMessage ?? true;
     this.disableReconnect = options?.disableReconnect ?? false;
 
     if (!options?.debug) {
@@ -78,7 +78,7 @@ export default class WSRekanet extends EventEmitter {
   ) => {
     if (this.isOpen()) {
       this.ws.send(data);
-    } else if (this.useMessageQueue) {
+    } else if (this.queueMessage) {
       this.messageQueue.push(data);
     }
   };
@@ -94,7 +94,7 @@ export default class WSRekanet extends EventEmitter {
     this.ws.onopen = this.onOpen;
     this.ws.onmessage = this.onMessage;
 
-    if (this.useMessageQueue) {
+    if (this.queueMessage) {
       this.relayQueuedMessages();
     }
   };

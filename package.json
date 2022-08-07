@@ -1,7 +1,7 @@
 {
   "name": "wsreconnect",
   "description": "Simple WebSocket wrapper with reconnect logic",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/nwaughachukwuma/wsreconnect.git"

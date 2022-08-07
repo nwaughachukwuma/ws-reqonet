@@ -12,9 +12,10 @@ Simple WebSocket wrapper with reconnect logic 💫
 
 > The Websocket API although effective and simple doesn't provide any reconnection logic. This library aims to solve this shortcoming by providing a mechanism to shore up `session_affinity` between the client [a web browser] and the server. It also provides a simple queue implementation where data being sent while the connection is broken are bucketed, to be relayed when connection is restored.
 >
-> Notes 
-> 1. the library is basically a wrapper for native WebSocket class, re-exposing its API. 
-> 2. it's built on browser event interface which allows it to emit native WebSocket events. 
+> Notes
+>
+> 1. the library is basically a wrapper for native WebSocket class, re-exposing its API.
+> 2. it's built on browser event interface which allows it to emit native WebSocket events.
 > 3. well tested with AVA.
 
 ## 🛠 installation
@@ -40,7 +41,7 @@ const protocols = [];
 const options = {
   maxReconnectAttempts: 5,
   maxRetryAttempts: 3,
-  useMessageQueue: true,
+  queueMessage: true,
 };
 
 // initialize
@@ -94,7 +95,7 @@ Default: 5
 
 The maximum number of retries - how many attempts at reconnecting
 
-#### useMessageQueue
+#### queueMessage
 
 Type: `boolean`\
 Default: true
