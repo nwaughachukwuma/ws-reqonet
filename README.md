@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/20521315/183274641-c1512f84-d7aa-4942-913f-e8329edef00a.gif" alt="Logo" />
+  <img src="https://user-images.githubusercontent.com/20521315/183275677-b09e49c0-a381-4132-af39-d0da80dc5ab6.gif" alt="Logo" />
 </p>
 
 # ws-reqonet
