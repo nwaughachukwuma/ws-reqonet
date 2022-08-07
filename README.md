@@ -31,7 +31,7 @@ pnpm install ws-rekanet
 npm install ws-rekanet
 ```
 
-## Usage
+## 🔱 Usage
 
 ```ts
 import WSRekanet from "ws-rekanet";
@@ -64,7 +64,7 @@ const payload = { message };
 wsClient.send(JSON.stringify(payload));
 ```
 
-## API
+## 🎯 API
 
 ### url
 
