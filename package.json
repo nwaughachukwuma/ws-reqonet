@@ -1,10 +1,10 @@
 {
-  "name": "wsreconnect",
+  "name": "ws-reqonet",
   "description": "Simple WebSocket wrapper with reconnect logic",
   "version": "0.5.0",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/nwaughachukwuma/wsreconnect.git"
+    "url": "git+https://github.com/nwaughachukwuma/ws-reqonet.git"
   },
   "author": "nwaughachukwuma<nwaughac@gmail.com>",
   "license": "MIT",
@@ -33,7 +33,7 @@
     "app"
   ],
   "keywords": [
-    "wsreconnect",
+    "ws-reqonet",
     "reconnect-ws",
     "websocket",
     "reconnection"

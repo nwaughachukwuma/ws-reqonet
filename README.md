@@ -2,7 +2,7 @@
   <img src="https://user-images.githubusercontent.com/20521315/183274641-c1512f84-d7aa-4942-913f-e8329edef00a.gif" alt="Logo" />
 </p>
 
-# wsreconnect
+# ws-reqonet
 
 [![Publish](https://github.com/nwaughachukwuma/ws-rekanet/actions/workflows/publish.yml/badge.svg)](https://github.com/nwaughachukwuma/ws-rekanet/actions/workflows/publish.yml)
 
