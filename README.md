@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/20521315/183274641-c1512f84-d7aa-4942-913f-e8329edef00a.gif" alt="Logo" />
+</p>
+
 # wsreconnect
 
 [![Publish](https://github.com/nwaughachukwuma/ws-rekanet/actions/workflows/publish.yml/badge.svg)](https://github.com/nwaughachukwuma/ws-rekanet/actions/workflows/publish.yml)
@@ -6,9 +10,12 @@ Simple WebSocket wrapper with reconnect logic 💫
 
 ## Motivation
 
-> The Websocket API although effective and simple doesn't provide any reconnection logic. This library aims to solve this shortcoming by providing a mechanism to shore up `session_affinity` between the client [a web browser] and the server. It also provides a simple queue implementation where data being sent while the connection is broken are stored, to be relayed when connection is restored.
+> The Websocket API although effective and simple doesn't provide any reconnection logic. This library aims to solve this shortcoming by providing a mechanism to shore up `session_affinity` between the client [a web browser] and the server. It also provides a simple queue implementation where data being sent while the connection is broken are bucketed, to be relayed when connection is restored.
 >
-> Note that the library is just a wrapper for WebSocket class and re-exposes all it's API. It's also built on an event interface which allows it to emit native WebSocket events. Finally, it's properly tested using AVA.
+> Notes 
+> 1. the library is basically a wrapper for native WebSocket class, re-exposing its API. 
+> 2. it's built on browser event interface which allows it to emit native WebSocket events. 
+> 3. well tested with AVA.
 
 ## 🛠 installation
 
@@ -43,7 +50,7 @@ wsClient.on("open", () => {
   console.log("websocket connection established");
 });
 wsClient.on("message", (event: any) => {
-  wsResponse = String(event.data);
+  console.log(event.data);
 });
 wsClient.on("error", (error: any) => {
   console.log("websocket error", error);
@@ -108,11 +115,11 @@ Default: false
 
 Whether to run in debug mode which enables logging to dev tools
 
-### Events
+### events
 
 #### open, close, message, error
 
-These are the same as native [WebSocket events](https://html.spec.whatwg.org/multipage/web-sockets.html#websocket)
+The same as native [WebSocket events](https://html.spec.whatwg.org/multipage/web-sockets.html#websocket)
 
 #### reconnection_timeout
 
