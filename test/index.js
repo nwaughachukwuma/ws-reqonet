@@ -1,6 +1,6 @@
 import test from "ava";
 import { Server } from "mock-socket";
-import WSRekanet from "../lib/index.js";
+import WSReqonet from "../lib/index.js";
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -9,7 +9,7 @@ class TestApp {
   #wsClient;
   constructor(url) {
     this.#messages = [];
-    this.#wsClient = new WSRekanet(url);
+    this.#wsClient = new WSReqonet(url);
 
     this.#wsClient.on("message", (event) => {
       this.#messages.push(event.data);
@@ -34,7 +34,7 @@ const SERVER_RESPONSE = "test message from mock server";
 const CLIENT_MESSAGE = "test message from app";
 const SLEEP_DURATION = 100;
 
-test.serial("WSRekanet can listen on open connection", async (t) => {
+test.serial("WSReqonet can listen on open connection", async (t) => {
   const mockServer = new Server(FAKE_URL);
   mockServer.on("connection", () => {});
 
@@ -47,7 +47,7 @@ test.serial("WSRekanet can listen on open connection", async (t) => {
   mockServer.stop();
 });
 
-test.serial("WSRekanet can listen on close connection", async (t) => {
+test.serial("WSReqonet can listen on close connection", async (t) => {
   const mockServer = new Server(FAKE_URL);
   mockServer.on("connection", (socket) => {
     socket.close();
@@ -62,7 +62,7 @@ test.serial("WSRekanet can listen on close connection", async (t) => {
   mockServer.stop();
 });
 
-test.serial("WSRekanet can force close client connection", async (t) => {
+test.serial("WSReqonet can force close client connection", async (t) => {
   const mockServer = new Server(FAKE_URL);
   mockServer.on("connection", () => {});
 
@@ -80,7 +80,7 @@ test.serial("WSRekanet can force close client connection", async (t) => {
 });
 
 test.serial(
-  "WSRekanet does not emit 'close' when force close client",
+  "WSReqonet does not emit 'close' when force close client",
   async (t) => {
     // indicate that only one assertion is expected
     t.plan(1);
@@ -103,7 +103,7 @@ test.serial(
   }
 );
 
-test.serial("WSRekanet can listen on errored connection", async (t) => {
+test.serial("WSReqonet can listen on errored connection", async (t) => {
   const DIFF_FAKE_URL = "ws://localhost:8080/diff";
 
   const mockServer = new Server(DIFF_FAKE_URL);
@@ -118,7 +118,7 @@ test.serial("WSRekanet can listen on errored connection", async (t) => {
   mockServer.stop();
 });
 
-test.serial("WSRekanet can handle reconnect to server", async (t) => {
+test.serial("WSReqonet can handle reconnect to server", async (t) => {
   t.plan(5);
 
   let mockServer = new Server(FAKE_URL);
@@ -148,7 +148,7 @@ test.serial("WSRekanet can handle reconnect to server", async (t) => {
   mockServer.stop();
 });
 
-test.serial("WSRekanet client can relay queued sent messages", async (t) => {
+test.serial("WSReqonet client can relay queued sent messages", async (t) => {
   t.plan(3);
 
   let mockServer = new Server(FAKE_URL);

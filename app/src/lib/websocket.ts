@@ -1,10 +1,10 @@
-// import WSRekanet from '../../../lib/index.js';
-import WSRekanet from 'ws-rekanet';
+// import WSReqonet from '../../../lib/index.js';
+import WSReqonet from 'ws-reqonet';
 
 const API_URL = 'http://localhost:8080';
-export default function websocket(): WSRekanet {
+export default function websocket(): WSReqonet {
 	const SERVER_URL = `${API_URL.replace(/http/, 'ws')}/ws/`;
-	return new WSRekanet(SERVER_URL, [], { enableLogging: true });
+	return new WSReqonet(SERVER_URL, [], { debug: true });
 }
 
-export { WSRekanet as Websocket };
+export { WSReqonet as Websocket };

@@ -2,9 +2,9 @@
   <img src="https://user-images.githubusercontent.com/20521315/183275677-b09e49c0-a381-4132-af39-d0da80dc5ab6.gif" alt="Logo" />
 </p>
 
-# ws-reqonet
+# ws-reqonet [formerly ws-rekanet]
 
-[![Publish](https://github.com/nwaughachukwuma/ws-rekanet/actions/workflows/publish.yml/badge.svg)](https://github.com/nwaughachukwuma/ws-rekanet/actions/workflows/publish.yml)
+[![Publish](https://github.com/nwaughachukwuma/ws-reqonet/actions/workflows/publish.yml/badge.svg)](https://github.com/nwaughachukwuma/ws-reqonet/actions/workflows/publish.yml)
 
 Simple WebSocket wrapper with reconnect logic 💫
 
@@ -22,19 +22,19 @@ Simple WebSocket wrapper with reconnect logic 💫
 
 ```bash
 # yarn
-yarn add ws-rekanet
+yarn add ws-reqonet
 
 # pnpm
-pnpm install ws-rekanet
+pnpm install ws-reqonet
 
 # npm
-npm install ws-rekanet
+npm install ws-reqonet
 ```
 
 ## 🔱 Usage
 
 ```ts
-import WSRekanet from "ws-rekanet";
+import WSReqonet from "ws-reqonet";
 
 const url = `ws://localhost:3001/`;
 const protocols = [];
@@ -45,7 +45,7 @@ const options = {
 };
 
 // initialize
-const wsClient = new WSRekanet(url, protocols, options);
+const wsClient = new WSReqonet(url, protocols, options);
 
 wsClient.on("open", () => {
   console.log("websocket connection established");
