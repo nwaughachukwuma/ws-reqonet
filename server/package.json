@@ -12,7 +12,7 @@
   "dependencies": {
     "fastify": "^3.25.0",
     "fastify-cors": "^6.0.2",
-    "fastify-websocket": "^4.0.0"
+    "fastify-websocket": "^4.3.0"
   },
   "devDependencies": {
     "@types/ws": "^8.2.2",
