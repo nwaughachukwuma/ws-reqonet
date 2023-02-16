@@ -88,7 +88,7 @@ export default class WSReqonet extends EventEmitter {
     this.ws.close(code, reason);
   };
 
-  private connect = async () => {
+  private connect = () => {
     this.ws.onclose = this.onClose;
     this.ws.onerror = this.onError;
     this.ws.onopen = this.onOpen;
