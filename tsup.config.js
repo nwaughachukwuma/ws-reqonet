@@ -7,5 +7,5 @@ export default defineConfig({
   entry: ["index.ts"],
   format: ["esm", "cjs"],
   outDir: "lib",
-  target: "node12",
+  target: "node14",
 });
