@@ -17,32 +17,27 @@ export interface WSReqonetOptions {
 // websocket with reconnection on exponential back-off
 export default class WSReqonet extends EventEmitter {
   private ws: WebSocket;
-  private reconnectAttempts: number;
+  private reconnectAttempts = 0;
   private maxReconnectAttempts: number;
-  private retryAttempts: number;
+  private retryAttempts = 0;
   private maxRetryAttempts: number;
-  private intervalRef: number;
-  private messageQueue: Array<string | Blob | ArrayBuffer | ArrayBufferView>;
+  private intervalRef = 0;
+  private messageQueue: Array<string | Blob | ArrayBuffer | ArrayBufferView> =
+    [];
   private queueMessage: boolean;
-  private forcedClose: boolean;
+  private forcedClose = false;
   private disableReconnect: boolean;
 
   constructor(
     url: string | URL,
     private protocols: string | string[] = [],
-    options?: WSReqonetOptions
+    options: WSReqonetOptions = {}
   ) {
     super();
-
-    this.reconnectAttempts = 0;
-    this.maxReconnectAttempts = options?.maxReconnectAttempts ?? 5;
-    this.intervalRef = 0;
-    this.messageQueue = [];
-    this.retryAttempts = 0;
-    this.maxRetryAttempts = options?.maxRetryAttempts ?? 5;
-    this.forcedClose = false;
-    this.queueMessage = options?.queueMessage ?? true;
-    this.disableReconnect = options?.disableReconnect ?? false;
+    this.maxReconnectAttempts = options.maxReconnectAttempts ?? 5;
+    this.maxRetryAttempts = options.maxRetryAttempts ?? 5;
+    this.queueMessage = options.queueMessage ?? true;
+    this.disableReconnect = options.disableReconnect ?? false;
 
     if (!options?.debug) {
       console.log = () => {};
@@ -114,7 +109,6 @@ export default class WSReqonet extends EventEmitter {
     if (this.forcedClose || this.disableReconnect) return;
 
     console.log("ws: reconnecting...");
-
     if (this.intervalRef) {
       window.clearInterval(this.intervalRef);
     }
