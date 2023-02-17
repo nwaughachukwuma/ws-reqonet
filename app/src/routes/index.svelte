@@ -96,7 +96,8 @@
 			border-radius: 4px;
 			padding: 10px;
 			margin-top: 5px;
-			max-width: 100%;
+			width: 100%;
+			word-break: break-all;
 			h1 {
 				text-decoration: underline;
 				text-transform: capitalize;
