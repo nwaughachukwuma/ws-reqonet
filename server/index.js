@@ -20,15 +20,18 @@ fastify()
     console.log("not found", req.url);
     reply.status(404).send({ error: "Not found" });
   })
-  .get("/", async () => getEnvDetails())
-  .get("/ws/*", { websocket: true }, ({ socket }, req) => {
-    socket.on("message", (msg) => {
-      console.log("from client", msg.toString(), req.url);
-      const res = JSON.stringify({
-        pong: `acked: ${Date.now()}`,
-        msg: `${msg}`,
+  .register(async (app) => {
+    app.get("/", async () => getEnvDetails());
+
+    app.get("/ws/*", { websocket: true }, ({ socket }, req) => {
+      socket.on("message", (msg) => {
+        console.log("from client", msg.toString(), req.url);
+        const res = JSON.stringify({
+          pong: `acked: ${Date.now()}`,
+          msg: `${msg}`,
+        });
+        socket.send(res);
       });
-      socket.send(res);
     });
   })
   .listen({ port: PORT, host: ADDRESS })
