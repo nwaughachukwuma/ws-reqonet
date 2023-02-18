@@ -1,7 +1,6 @@
 import { EventEmitter } from "events";
 
 const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
-
 export interface WSReqonetOptions {
   /** # of times to reconnect within a retry */
   maxReconnectAttempts?: number;
@@ -27,7 +26,6 @@ export default class WSReqonet extends EventEmitter {
   private queueMessage: boolean;
   private forcedClose = false;
   private disableReconnect: boolean;
-
   constructor(
     url: string | URL,
     private protocols: string | string[] = [],
@@ -42,32 +40,26 @@ export default class WSReqonet extends EventEmitter {
     if (!options?.debug) {
       console.log = () => {};
     }
-
     this.ws = new window.WebSocket(url, protocols);
     this.connect();
   }
-
   private onOpen = () => {
     this.emit("open");
     this.forcedClose = false;
   };
-
   private onMessage = (event: MessageEvent<any>) => {
     this.emit("message", event);
   };
-
   private onError = (error: Event) => {
     this.emit("error", error);
     this.reconnect();
   };
-
   private onClose = () => {
     if (!this.forcedClose) {
       this.emit("close");
       this.reconnect();
     }
   };
-
   public send: WebSocket["send"] = (
     data: string | Blob | ArrayBuffer | ArrayBufferView
   ) => {
@@ -77,12 +69,10 @@ export default class WSReqonet extends EventEmitter {
       this.messageQueue.push(data);
     }
   };
-
   public close: WebSocket["close"] = (code?: number, reason?: string) => {
     this.forcedClose = true;
     this.ws.close(code, reason);
   };
-
   private connect = () => {
     this.ws.onclose = this.onClose;
     this.ws.onerror = this.onError;
@@ -93,7 +83,6 @@ export default class WSReqonet extends EventEmitter {
       this.relayQueuedMessages();
     }
   };
-
   /** relay messages that were queued while the connection was closed */
   private relayQueuedMessages = async () => {
     const messageQueue = [...this.messageQueue];
@@ -101,10 +90,8 @@ export default class WSReqonet extends EventEmitter {
       await wait(100);
       this.ws.send(msg);
     }
-
     this.messageQueue.splice(0, messageQueue.length);
   };
-
   private reconnect = () => {
     if (this.forcedClose || this.disableReconnect) return;
 
@@ -135,7 +122,6 @@ export default class WSReqonet extends EventEmitter {
       }
     }, TIMEOUT);
   };
-
   private onRestore = () => {
     console.log("ws: connection restored!");
     this.reconnectAttempts = 0;
@@ -145,7 +131,6 @@ export default class WSReqonet extends EventEmitter {
     this.emit("reconnected");
     this.connect();
   };
-
   /** check if connection is open */
   public isOpen = () => this.ws.readyState === this.ws.OPEN;
 }
