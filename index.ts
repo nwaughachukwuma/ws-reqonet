@@ -47,7 +47,7 @@ export default class WSReqonet extends EventEmitter {
     this.ws = new window.WebSocket(url, protocols);
     this.connect();
   }
-  private onOpen = () => {
+  private onopen = () => {
     this.emit("open");
     this.forcedClose = false;
   };
@@ -80,7 +80,7 @@ export default class WSReqonet extends EventEmitter {
   private connect = () => {
     this.ws.onclose = this.onclose;
     this.ws.onerror = this.onError;
-    this.ws.onopen = this.onOpen;
+    this.ws.onopen = this.onopen;
     this.ws.onmessage = this.onmessage;
 
     if (this.queueMessage) {

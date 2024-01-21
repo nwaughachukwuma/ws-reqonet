@@ -21,7 +21,7 @@
     "prepare": "husky install",
     "tsc": "tsc",
     "build": "tsup",
-    "test": "tsd && ava",
+    "test": "tsc && tsd && ava",
     "pretty-quick": "pretty-quick --staged"
   },
   "sideEffects": false,
