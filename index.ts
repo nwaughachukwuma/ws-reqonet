@@ -105,26 +105,26 @@ export default class WSReqonet extends EventEmitter {
     }
 
     const TIMEOUT = Math.pow(2, this.retryAttempts + 1) * 1000;
-    this.intervalRef = window.setInterval(() => {
+    const reconnectHandler = () => {
       if (this.reconnectAttempts < this.maxReconnectAttempts) {
         this.reconnectAttempts++;
         console.log("ws: reconnecting - attempt: ", this.reconnectAttempts);
 
         this.ws = new window.WebSocket(this.ws.url, this.protocols);
         this.ws.onopen = this.onrestore;
-      } else {
-        if (this.retryAttempts < this.maxRetryAttempts) {
-          this.retryAttempts++;
-          console.log("ws: retrying - attempt: ", this.retryAttempts);
+      } else if (this.retryAttempts < this.maxRetryAttempts) {
+        this.retryAttempts++;
+        console.log("ws: retrying - attempt: ", this.retryAttempts);
 
-          this.reconnectAttempts = 0;
-          this.reconnect();
-        } else {
-          this.emit("reconnection_timeout");
-          window.clearInterval(this.intervalRef);
-        }
+        this.reconnectAttempts = 0;
+        this.reconnect();
+      } else {
+        this.emit("reconnection_timeout");
+        window.clearInterval(this.intervalRef);
       }
-    }, TIMEOUT);
+    };
+
+    this.intervalRef = window.setInterval(reconnectHandler, TIMEOUT);
   };
   private onrestore = () => {
     console.log("ws: connection restored!");
