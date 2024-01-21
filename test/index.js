@@ -69,12 +69,12 @@ test.serial("WSReqonet can force close client connection", async (t) => {
   const app = new TestApp(FAKE_URL);
 
   await sleep(SLEEP_DURATION);
-  t.is(app.ws.isOpen(), true);
+  t.is(app.ws.isopen(), true);
 
   app.ws.close();
 
   await sleep(SLEEP_DURATION);
-  t.not(app.ws.isOpen(), true);
+  t.not(app.ws.isopen(), true);
 
   mockServer.stop();
 });
@@ -133,7 +133,7 @@ test.serial("WSReqonet can handle reconnect to server", async (t) => {
 
   await sleep(SLEEP_DURATION);
   mockServer.close();
-  t.not(app.ws.isOpen(), true);
+  t.not(app.ws.isopen(), true);
   // --------------------------------------------------
   // attempt to reconnect to server
   // --------------------------------------------------
@@ -144,7 +144,7 @@ test.serial("WSReqonet can handle reconnect to server", async (t) => {
   });
   // wait enough time for reconnection attempts to kick in
   await sleep(SLEEP_DURATION * 30);
-  t.is(app.ws.isOpen(), true);
+  t.is(app.ws.isopen(), true);
   mockServer.stop();
 });
 
@@ -157,7 +157,7 @@ test.serial("WSReqonet client can relay queued sent messages", async (t) => {
 
   mockServer.close();
 
-  t.not(app.ws.isOpen(), true);
+  t.not(app.ws.isopen(), true);
 
   app.ws.send("test message 1");
   app.ws.send("test message 2");
@@ -176,7 +176,7 @@ test.serial("WSReqonet client can relay queued sent messages", async (t) => {
   // wait enough time for reconnection attempts to kick in
   await sleep(SLEEP_DURATION * 30);
 
-  t.is(app.ws.isOpen(), true);
+  t.is(app.ws.isopen(), true);
   t.is(app.messages.length, 3, "confirm that three message were received");
   mockServer.stop();
 });
