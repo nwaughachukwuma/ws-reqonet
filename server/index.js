@@ -3,7 +3,7 @@ import cors from "@fastify/cors";
 import fastifyWS from "@fastify/websocket";
 
 const PORT = 8080;
-const ADDRESS = "0.0.0.0";
+const HOST = "0.0.0.0";
 const getEnvDetails = () => ({
   VERSION: process.env.VERSION || "local",
   PORT,
@@ -34,7 +34,7 @@ fastify()
       });
     });
   })
-  .listen({ port: PORT, host: ADDRESS })
+  .listen({ port: PORT, host: HOST })
   .then((v) => {
     console.log(`ws server started on ${v}`);
   });
