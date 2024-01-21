@@ -3,7 +3,7 @@ import cors from "@fastify/cors";
 import fastifyWS from "@fastify/websocket";
 
 const PORT = 8080;
-const ADDRESS = "0.0.0.0";
+const HOST = "0.0.0.0";
 const getEnvDetails = () => ({
   VERSION: process.env.VERSION || "local",
   PORT,
@@ -25,16 +25,18 @@ fastify()
 
     app.get("/ws/*", { websocket: true }, ({ socket }, req) => {
       socket.on("message", (msg) => {
-        console.log("from client", msg.toString(), req.url);
+        const msgStr = String(msg);
+        console.log(JSON.parse(msgStr), req.url);
+
         const res = JSON.stringify({
           pong: `acked: ${Date.now()}`,
-          msg: `${msg}`,
+          msg: msgStr,
         });
         socket.send(res);
       });
     });
   })
-  .listen({ port: PORT, host: ADDRESS })
+  .listen({ port: PORT, host: HOST })
   .then((v) => {
     console.log(`ws server started on ${v}`);
   });

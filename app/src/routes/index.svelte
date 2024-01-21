@@ -7,22 +7,26 @@
 	let wsResponse = '';
 	onMount(() => {
 		wsClient = webSocket();
-		wsClient.on('message', (event: any) => {
-			wsResponse = String(event.data);
+
+		wsClient.on('message', (event) => {
+			wsResponse = event.data;
 		});
-		wsClient.on('error', (error: any) => {
+
+		wsClient.on('error', (error) => {
 			console.log('websocket error', error);
 		});
+
 		wsClient.on('open', () => {
 			console.log('websocket connection established');
 		});
+
 		wsClient.on('close', () => {
 			console.log('websocket connection closed');
 		});
 	});
+
 	const sendMessage = (message: string) => {
-		const payload = { message };
-		wsClient.send(JSON.stringify(payload));
+		wsClient.send(JSON.stringify({ message }));
 	};
 </script>
 
@@ -56,7 +60,7 @@
 	<div class="response-area">
 		<h1>WebSocket response</h1>
 		<span>
-			{JSON.stringify(wsResponse, null, 2)}
+			{wsResponse}
 		</span>
 	</div>
 </message-container>
