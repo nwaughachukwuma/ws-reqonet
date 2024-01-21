@@ -20,18 +20,21 @@ export default class WSReqonet extends EventEmitter {
   private maxReconnectAttempts: number;
   private retryAttempts = 0;
   private maxRetryAttempts: number;
-  private intervalRef = 0;
+  private queueMessage: boolean;
   private messageQueue: Array<string | Blob | ArrayBuffer | ArrayBufferView> =
     [];
-  private queueMessage: boolean;
+
+  private intervalRef = 0;
   private forcedClose = false;
   private disableReconnect: boolean;
+
   constructor(
     url: string | URL,
     private protocols: string | string[] = [],
     options: WSReqonetOptions = {}
   ) {
     super();
+
     this.maxReconnectAttempts = options.maxReconnectAttempts ?? 5;
     this.maxRetryAttempts = options.maxRetryAttempts ?? 5;
     this.queueMessage = options.queueMessage ?? true;
@@ -40,6 +43,7 @@ export default class WSReqonet extends EventEmitter {
     if (!options?.debug) {
       console.log = () => {};
     }
+
     this.ws = new window.WebSocket(url, protocols);
     this.connect();
   }
@@ -47,14 +51,14 @@ export default class WSReqonet extends EventEmitter {
     this.emit("open");
     this.forcedClose = false;
   };
-  private onMessage = (event: MessageEvent<any>) => {
+  private onmessage = (event: MessageEvent<any>) => {
     this.emit("message", event);
   };
   private onError = (error: Event) => {
     this.emit("error", error);
     this.reconnect();
   };
-  private onClose = () => {
+  private onclose = () => {
     if (!this.forcedClose) {
       this.emit("close");
       this.reconnect();
@@ -63,7 +67,7 @@ export default class WSReqonet extends EventEmitter {
   public send: WebSocket["send"] = (
     data: string | Blob | ArrayBuffer | ArrayBufferView
   ) => {
-    if (this.isOpen()) {
+    if (this.isopen()) {
       this.ws.send(data);
     } else if (this.queueMessage) {
       this.messageQueue.push(data);
@@ -74,10 +78,10 @@ export default class WSReqonet extends EventEmitter {
     this.ws.close(code, reason);
   };
   private connect = () => {
-    this.ws.onclose = this.onClose;
+    this.ws.onclose = this.onclose;
     this.ws.onerror = this.onError;
     this.ws.onopen = this.onOpen;
-    this.ws.onmessage = this.onMessage;
+    this.ws.onmessage = this.onmessage;
 
     if (this.queueMessage) {
       this.relayQueuedMessages();
@@ -87,7 +91,7 @@ export default class WSReqonet extends EventEmitter {
   private relayQueuedMessages = async () => {
     const messageQueue = [...this.messageQueue];
     for (const msg of messageQueue) {
-      await wait(100);
+      await wait(10);
       this.ws.send(msg);
     }
     this.messageQueue.splice(0, messageQueue.length);
@@ -107,7 +111,7 @@ export default class WSReqonet extends EventEmitter {
         console.log("ws: reconnecting - attempt: ", this.reconnectAttempts);
 
         this.ws = new window.WebSocket(this.ws.url, this.protocols);
-        this.ws.onopen = this.onRestore;
+        this.ws.onopen = this.onrestore;
       } else {
         if (this.retryAttempts < this.maxRetryAttempts) {
           this.retryAttempts++;
@@ -122,7 +126,7 @@ export default class WSReqonet extends EventEmitter {
       }
     }, TIMEOUT);
   };
-  private onRestore = () => {
+  private onrestore = () => {
     console.log("ws: connection restored!");
     this.reconnectAttempts = 0;
     window.clearInterval(this.intervalRef);
@@ -131,6 +135,5 @@ export default class WSReqonet extends EventEmitter {
     this.emit("reconnected");
     this.connect();
   };
-  /** check if connection is open */
-  public isOpen = () => this.ws.readyState === this.ws.OPEN;
+  public isopen = () => this.ws.readyState === this.ws.OPEN;
 }
