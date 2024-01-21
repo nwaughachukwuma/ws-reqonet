@@ -1,10 +1,9 @@
 import { EventEmitter } from "events";
 
+const MAX_RECONNECT_ATTEMPTS = 10;
 const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 export interface WSReqonetOptions {
-  /** # of times to reconnect within a retry */
-  maxReconnectAttempts?: number;
-  /** # of attempts at reconnecting */
+  /** # attempts to reconnect */
   maxRetryAttempts?: number;
   /** Whether to store 'send' data when connection is broken  */
   queueMessage?: boolean;
@@ -16,14 +15,13 @@ export interface WSReqonetOptions {
 // websocket with reconnection on exponential back-off
 export default class WSReqonet extends EventEmitter {
   private ws: WebSocket;
-  private reconnectAttempts = 0;
-  private maxReconnectAttempts: number;
   private retryAttempts = 0;
   private maxRetryAttempts: number;
   private queueMessage: boolean;
   private messageQueue: Array<string | Blob | ArrayBuffer | ArrayBufferView> =
     [];
 
+  private reconnectAttempts = 0;
   private intervalRef = 0;
   private forcedClose = false;
   private disableReconnect: boolean;
@@ -35,8 +33,7 @@ export default class WSReqonet extends EventEmitter {
   ) {
     super();
 
-    this.maxReconnectAttempts = options.maxReconnectAttempts ?? 5;
-    this.maxRetryAttempts = options.maxRetryAttempts ?? 5;
+    this.maxRetryAttempts = options.maxRetryAttempts ?? 10;
     this.queueMessage = options.queueMessage ?? true;
     this.disableReconnect = options.disableReconnect ?? false;
 
@@ -106,7 +103,7 @@ export default class WSReqonet extends EventEmitter {
 
     const TIMEOUT = Math.pow(2, this.retryAttempts + 1) * 1000;
     const reconnectHandler = () => {
-      if (this.reconnectAttempts < this.maxReconnectAttempts) {
+      if (this.reconnectAttempts < MAX_RECONNECT_ATTEMPTS) {
         this.reconnectAttempts++;
         console.log("ws: reconnecting - attempt: ", this.reconnectAttempts);
 

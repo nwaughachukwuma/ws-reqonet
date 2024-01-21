@@ -39,8 +39,7 @@ import WSReqonet from "ws-reqonet";
 const url = `ws://localhost:3001/`;
 const protocols = [];
 const options = {
-  maxReconnectAttempts: 5,
-  maxRetryAttempts: 3,
+  maxRetryAttempts: 10,
   queueMessage: true,
 };
 
@@ -81,40 +80,33 @@ Either a single protocol string or an array of protocol strings. These strings a
 
 Type: `object`
 
-#### maxReconnectAttempts
-
-Type: `number`\
-Default: 5
-
-Number of times it attempts to reconnect within a retry
-
 #### maxRetryAttempts
-
-Type: `number`\
-Default: 5
 
 The maximum number of retries - how many attempts at reconnecting
 
+Type: `number`\
+Default: 5
+
 #### queueMessage
+
+Whether to store 'send' data when the connection is broken, which is to be relayed when connection is restored.
 
 Type: `boolean`\
 Default: true
 
-Whether to store 'send' data when the connection is broken, which is to be relayed when connection is restored.
-
 #### disableReconnect
-
-Type: `boolean`\
-Default: false
 
 Whether to disable reconnection
 
-#### debug
-
 Type: `boolean`\
 Default: false
 
+#### debug
+
 Whether to run in debug mode which enables logging to dev tools
+
+Type: `boolean`\
+Default: false
 
 ### events
 
