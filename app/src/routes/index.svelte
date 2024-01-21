@@ -9,7 +9,7 @@
 		wsClient = webSocket();
 
 		wsClient.on('message', (event) => {
-			wsResponse = String(event.data);
+			wsResponse = event.data;
 		});
 
 		wsClient.on('error', (error) => {
@@ -26,8 +26,7 @@
 	});
 
 	const sendMessage = (message: string) => {
-		const payload = { message };
-		wsClient.send(JSON.stringify(payload));
+		wsClient.send(JSON.stringify({ message }));
 	};
 </script>
 
@@ -61,7 +60,7 @@
 	<div class="response-area">
 		<h1>WebSocket response</h1>
 		<span>
-			{JSON.stringify(wsResponse, null, 2)}
+			{wsResponse}
 		</span>
 	</div>
 </message-container>

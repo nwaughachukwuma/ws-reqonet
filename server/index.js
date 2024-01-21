@@ -25,10 +25,12 @@ fastify()
 
     app.get("/ws/*", { websocket: true }, ({ socket }, req) => {
       socket.on("message", (msg) => {
-        console.log("from client", msg.toString(), req.url);
+        const msgStr = String(msg);
+        console.log(JSON.parse(msgStr), req.url);
+
         const res = JSON.stringify({
           pong: `acked: ${Date.now()}`,
-          msg: `${msg}`,
+          msg: msgStr,
         });
         socket.send(res);
       });
